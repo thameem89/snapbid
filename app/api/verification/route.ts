@@ -28,6 +28,7 @@ export async function POST(req: Request) {
         challenge_code_hash: await hash(code), challenge_code_display: code,
         expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
       }).select('id,challenge_code_display,expires_at').single());
+      if (!created) throw new Error('Unable to create verification challenge.');
       await db().from('social_accounts').update({ ownership_status: 'claim_pending' }).eq('id', profile.id);
       return Response.json({ message: `${created.challenge_code_display} · Expires ${new Date(created.expires_at).toLocaleString('en-US')}`, challengeId: created.id });
     }
