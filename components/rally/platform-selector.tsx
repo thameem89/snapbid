@@ -1,10 +1,10 @@
-import { ChevronDown, Instagram, Youtube } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 
 const platforms = [
   { name: 'Snapchat', icon: '♧', status: 'Live', live: true },
-  { name: 'Instagram', icon: <Instagram size={17} />, status: 'Coming soon' },
+  { name: 'Instagram', icon: '◎', status: 'Coming soon' },
   { name: 'TikTok', icon: '♪', status: 'Coming soon' },
-  { name: 'YouTube', icon: <Youtube size={18} />, status: 'Coming soon' },
+  { name: 'YouTube', icon: '▶', status: 'Coming soon' },
   { name: 'X', icon: '𝕏', status: 'Coming soon' },
 ];
 
