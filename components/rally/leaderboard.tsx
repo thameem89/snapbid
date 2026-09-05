@@ -156,11 +156,8 @@ export function Leaderboard({
                       <span>USD</span>
                     </strong>
                   </div>
-                  <Link
-                    className={`button ${a.rank === 1 ? '' : 'secondary'}`}
-                    href={`/account/${a.slug}?boost=1`}
-                  >
-                    <Zap size={15} /> Boost profile <ArrowUpRight size={16} />
+                  <Link className={`button ${a.rank === 1 ? '' : 'secondary'}`} href={`/account/${a.slug}`}>
+                    View Profile <ArrowUpRight size={16} />
                   </Link>
                 </article>
               ))}
@@ -194,14 +191,7 @@ export function Leaderboard({
                     <strong>{money(a.total_verified_promotion_cents)}</strong>
                     <small>USD promotion</small>
                   </div>
-                  <Link
-                    className="boost-small"
-                    href={`/account/${a.slug}?boost=1`}
-                  >
-                    <Zap size={14} />
-                    <span>Boost</span>
-                    <ArrowUpRight size={13} />
-                  </Link>
+                  <Link className="boost-small" href={`/account/${a.slug}`}><span>View</span><ArrowUpRight size={13} /></Link>
                 </article>
               ))}
             </div>
@@ -220,7 +210,7 @@ export function Leaderboard({
         </div>
         <div>
           <h2>Big visibility starts small.</h2>
-          <p>Find your favorite profile and give it a boost. Starting at $1.</p>
+          <p>Add your profile, verify ownership, and climb the rankings.</p>
         </div>
         <Link href="/add-profile" className="button secondary">
           Add Profile <Plus size={17} />

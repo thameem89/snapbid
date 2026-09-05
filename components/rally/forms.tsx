@@ -16,6 +16,7 @@ export async function post(path: string, body: unknown) {
       url: z.string().default(''),
       slug: z.string().default(''),
       status: z.string().optional(),
+      challengeId: z.string().optional(),
     })
     .parse(await r.json());
   if (!r.ok) throw new Error(data.error || 'Request failed.');
@@ -45,8 +46,8 @@ export function SignIn() {
     >
       <h2>Your next chapter starts here.</h2>
       <p className="muted">
-        Sign in to add accounts, claim your profile, and manage your activity.
-        Browsing and promotion purchases do not require an account.
+        Sign in to add and verify social profiles you own, manage rankings, and
+        purchase promotion for your verified profiles.
       </p>
       <label className="field">
         Email address
@@ -106,7 +107,7 @@ export function AddAccount({
           });
           if (d.status === 'pending')
             setMessage(
-              'Your listing is awaiting moderation. It will appear publicly after approval.',
+              'Profile saved as unverified. Open your dashboard to verify ownership.',
             );
           else router.push(`/account/${d.slug}`);
         } catch (err) {
@@ -117,8 +118,8 @@ export function AddAccount({
       }}
     >
       <div className="notice">
-        Snapchat · Listing an account does not verify ownership. Location is
-        declared until reviewed.
+        Snapchat · Live. Only add a social profile you personally own. It will
+        remain unverified and outside rankings until ownership is approved.
       </div>
       <label className="field">
         Username or Snapchat profile URL
@@ -157,12 +158,34 @@ export function AddAccount({
         </p>
       )}
       <button className="button" disabled={busy || demo}>
-        {busy ? 'Submitting…' : 'Submit account for review'}
+        {busy ? 'Saving…' : 'Add My Profile'}
       </button>
       <output>{message}</output>
     </form>
   );
 }
+export function VerifyOwnership({ accountId, username }: { accountId: string; username: string }) {
+  const [challengeId, setChallengeId] = useState('');
+  const [message, setMessage] = useState('');
+  return <div className="stack">
+    <div className="notice">This profile cannot enter rankings or purchase promotion until ownership is verified.</div>
+    {!challengeId ? <button className="button secondary" onClick={async () => {
+      try { const result = await post('/api/verification', { accountId, action: 'create', method: 'public_code' }); setChallengeId(result.challengeId || ''); setMessage(result.message); }
+      catch (error) { setMessage((error as Error).message); }
+    }}>Verify Ownership</button> : <form className="stack" onSubmit={async (event) => {
+      event.preventDefault(); const data = new FormData(event.currentTarget);
+      try { setMessage((await post('/api/verification', { accountId, action: 'submit', challengeId, evidence: data.get('evidence') })).message); }
+      catch (error) { setMessage((error as Error).message); }
+    }}>
+      <p><strong>Verify @{username}</strong></p>
+      <p className="notice">Temporarily place this code on your public profile or publish it from the account. {message}</p>
+      <label className="field">Evidence or public post URL<textarea name="evidence" minLength={10} maxLength={3000} required /></label>
+      <button className="button">I've added the code</button>
+    </form>}
+    {!challengeId && <output>{message}</output>}
+  </div>;
+}
+
 export function PrivateAction({
   accountId,
   kind,
@@ -239,6 +262,7 @@ export function AdminAction() {
         ['claimId', 'Claim ID (claim decisions)'],
         ['location', 'Location ID (location corrections)'],
         ['reportId', 'Report ID (resolve report)'],
+        ['verificationId', 'Verification ID (social verification)'],
       ].map(([name, label]) => (
         <label className="field" key={name}>
           {label}
@@ -256,6 +280,8 @@ export function AdminAction() {
             'reject_claim',
             'verify_location',
             'resolve_report',
+            'approve_verification',
+            'reject_verification',
           ].map((a) => (
             <option key={a}>{a}</option>
           ))}

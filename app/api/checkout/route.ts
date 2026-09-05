@@ -1,7 +1,6 @@
 import { z } from 'zod';
 import { config, requireConfig } from '@/lib/server/config';
-import { db, checked, authClient } from '@/lib/server/db';
-import { getAccount } from '@/lib/server/ranking';
+import { db, checked, user } from '@/lib/server/db';
 import { amountCents } from '@/lib/domain/ranking';
 import { paymentProvider } from '@/lib/server/payment';
 import { sameOrigin, limit, failure, hash } from '@/lib/server/http';
@@ -9,19 +8,17 @@ export async function POST(req: Request) {
   try {
     sameOrigin(req);
     requireConfig();
-    await limit(req, 'checkout', 8);
+    const u = await user();
+    await limit(req, 'checkout', 8, u.id);
     const body = z
       .object({ slug: z.string().max(80), amount: z.string().max(20) })
       .parse(await req.json());
     const c = config();
     const cents = amountCents(body.amount, c.max);
-    const account = await getAccount(body.slug);
-    if (!account) throw new Error('This account is unavailable or suspended.');
+    const account = checked(await db().from('social_accounts').select('*').eq('slug', body.slug).maybeSingle());
+    if (!account || account.owner_user_id !== u.id || account.ownership_status !== 'verified' || account.account_status !== 'approved')
+      throw new Error('Only the verified owner can boost this active profile.');
     const provider = paymentProvider();
-    const client = await authClient();
-    const {
-      data: { user },
-    } = await client.auth.getUser();
     const id = crypto.randomUUID();
     const token = crypto.randomUUID() + crypto.randomUUID();
     checked(
@@ -30,7 +27,7 @@ export async function POST(req: Request) {
         .insert({
           id,
           social_account_id: account.id,
-          payer_user_id: user?.id || null,
+          payer_user_id: u.id,
           amount_cents: cents,
           payment_provider: 'stripe',
           status_token_hash: await hash(token),
@@ -61,7 +58,7 @@ export async function POST(req: Request) {
           event_name: 'checkout_start',
           social_account_id: account.id,
           purchase_id: id,
-          user_id: user?.id || null,
+          user_id: u.id,
         }),
     );
     return Response.json({ url: session.url });

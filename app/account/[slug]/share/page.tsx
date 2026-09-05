@@ -13,7 +13,7 @@ export default async function Page({
   return (
     <div className="page">
       <div className="panel share-card standalone">
-        <div className="eyebrow">RALLY / SNAPCHAT</div>
+        <div className="eyebrow">CLIMBR / SNAPCHAT</div>
         <h2>{a.city} sponsored ranking</h2>
         <strong>#{ranks[0].rank}</strong>
         <h1>@{a.username}</h1>

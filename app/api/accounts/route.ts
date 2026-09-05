@@ -1,12 +1,13 @@
 import { z } from 'zod';
 import { normalizeUsername } from '@/lib/domain/ranking';
-import { config } from '@/lib/server/config';
 import { db, checked, user } from '@/lib/server/db';
 import { sameOrigin, limit, failure } from '@/lib/server/http';
 export async function POST(req: Request) {
   try {
     sameOrigin(req);
     const u = await user();
+    if (!u.email_confirmed_at)
+      throw new Error('Verify your Climbr email before adding a social profile.');
     await limit(req, 'account-create', 5, u.id);
     const b = z
       .object({
@@ -20,17 +21,16 @@ export async function POST(req: Request) {
     const existing = checked(
       await db()
         .from('social_accounts')
-        .select('slug,account_status')
+        .select('slug,account_status,owner_user_id')
         .eq('platform_id', 'snapchat')
         .eq('normalized_username', name)
         .maybeSingle(),
     );
-    if (existing)
-      return Response.json({
-        slug: existing.slug,
-        status: existing.account_status,
-        existing: true,
-      });
+    if (existing) {
+      if (existing.owner_user_id !== u.id)
+        throw new Error('This social profile is already registered on Climbr. Contact support for an ownership review.');
+      return Response.json({ slug: existing.slug, status: existing.account_status, existing: true });
+    }
     const loc = checked(
       await db()
         .from('locations')
@@ -59,7 +59,9 @@ export async function POST(req: Request) {
         profile_url: `https://www.snapchat.com/add/${name}`,
         location_id: b.location,
         bio: b.bio,
-        account_status: config().review,
+        owner_user_id: u.id,
+        ownership_status: 'unclaimed',
+        account_status: 'pending',
       })
       .select('slug,account_status')
       .single();
@@ -67,7 +69,7 @@ export async function POST(req: Request) {
       return Response.json({ slug: name, existing: true });
     const data = checked(result);
     if (!data) throw new Error('Account creation failed.');
-    return Response.json({ slug: data.slug, status: data.account_status });
+    return Response.json({ slug: data.slug, status: data.account_status, message: 'Profile saved as unverified. Verify ownership from your dashboard.' });
   } catch (e) {
     return failure(e);
   }

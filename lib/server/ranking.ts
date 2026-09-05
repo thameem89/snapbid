@@ -53,6 +53,7 @@ export async function getAccount(slug: string): Promise<Account | null> {
       .select('*')
       .eq('slug', slug)
       .eq('account_status', 'approved')
+      .eq('ownership_status', 'verified')
       .maybeSingle(),
   ) as Account | null;
   if (!a) return null;

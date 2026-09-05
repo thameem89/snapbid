@@ -10,16 +10,24 @@ export const policies: Record<
     title: 'A little boost. A bigger spotlight.',
     sections: [
       [
-        '01 / Find a profile',
-        'Search or add a public social profile. Browse its city, country, continent, and world sponsored rankings.',
+        '01 / Create your Climbr account',
+        'Sign up and verify your email before adding a social profile.',
       ],
       [
-        '02 / Boost visibility',
-        'Purchase promotional value starting at $1 USD. You can support a profile without claiming to own it.',
+        '02 / Add your social profile',
+        'Enter a social profile you personally own and select its city using the five-level location hierarchy.',
       ],
       [
-        '03 / Climb the sponsored rankings',
-        'After secure payment verification, your purchase contributes to cumulative promotional value. Positions can change as other profiles receive promotion.',
+        '03 / Verify ownership',
+        'Complete a time-limited Climbr ownership challenge. Submitted evidence is reviewed privately.',
+      ],
+      [
+        '04 / Boost your profile',
+        'After ownership approval, purchase promotional value for your own profile starting at $1 USD.',
+      ],
+      [
+        '05 / Climb the sponsored rankings',
+        'After secure payment verification, promotion contributes to your World, Continent, Region, Country, and City rankings.',
       ],
       [
         'Always transparent',
@@ -36,7 +44,7 @@ export const policies: Record<
       ],
       [
         'Deterministic positions',
-        'Approved accounts are ordered by cumulative verified promotion value, highest first. Equal values are ordered by the time of the account’s first verified promotion, earliest first. A stable account ID breaks identical timestamp ties. This timestamp refers to the first promotion, not when a later total was reached.',
+        'Verified active profiles are ordered by cumulative verified promotion value, highest first. Equal values are ordered by the time of the profile’s first verified promotion, earliest first. A stable profile ID breaks identical timestamp ties.',
       ],
       [
         'Geographic rankings',
@@ -52,7 +60,7 @@ export const policies: Record<
       ],
       [
         'Listings and ownership',
-        'Anyone may support a listed profile. A purchase never establishes ownership. Ownership claims are reviewed separately. Unclaimed listings are not verified owners.',
+        'Only the verified owner may purchase promotion for their active social profile. Email verification, payment, a username, or a public link alone does not establish social-profile ownership.',
       ],
       ['Platform independence', disclaimer],
     ],

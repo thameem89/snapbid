@@ -18,7 +18,7 @@ export default async function Page() {
       </div>
     );
   }
-  const [accounts, claims, reports, purchases] = await Promise.all([
+  const [accounts, claims, verifications, reports, purchases] = await Promise.all([
     db()
       .from('social_accounts')
       .select('id,username,account_status')
@@ -29,6 +29,9 @@ export default async function Page() {
       .select('id,social_account_id,evidence,status')
       .eq('status', 'pending')
       .limit(50),
+    db().from('social_verification_challenges')
+      .select('id,social_account_id,user_id,verification_method,challenge_code_display,evidence_text,status,expires_at,submitted_at')
+      .eq('status', 'submitted').limit(50),
     db()
       .from('reports')
       .select('id,social_account_id,reason,status')
@@ -49,6 +52,7 @@ export default async function Page() {
             [
               ['Pending listings', checked(accounts)],
               ['Ownership claims', checked(claims)],
+              ['Social verification requests', checked(verifications)],
               ['Open reports', checked(reports)],
               ['Disputed purchases', checked(purchases)],
             ] as [string, unknown][]

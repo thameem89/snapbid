@@ -5,10 +5,10 @@ import { config } from '@/lib/server/config';
 export default async function Page() {
   return (
     <div className="page">
-      <div className="eyebrow">MAKE AN INTRODUCTION</div>
-      <h1>Add a public profile.</h1>
+      <div className="eyebrow">MY SOCIAL PROFILES</div>
+      <h1>Add your social profile.</h1>
       <p className="muted">
-        One listing per account. If it is already here, we will take you to it.
+        Only profile owners can enter Climbr sponsored rankings. Snapchat is live; more platforms are coming soon.
       </p>
       <AddAccount locations={await getLocations()} demo={config().demo} />
     </div>

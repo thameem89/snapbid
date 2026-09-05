@@ -1,7 +1,7 @@
 'use client';
 import { z } from 'zod';
 import { useEffect, useState } from 'react';
-import { Zap, Share2, Flag, ShieldCheck } from 'lucide-react';
+import { Zap, Share2, Flag } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -18,12 +18,14 @@ export function AccountActions({
   initialOpen = false,
   currentRank,
   max,
+  canBoost,
 }: {
   account: Account;
   demo: boolean;
   initialOpen?: boolean;
   currentRank: number;
   max: number;
+  canBoost: boolean;
 }) {
   const [open, setOpen] = useState(initialOpen);
   const [amount, setAmount] = useState('5');
@@ -77,7 +79,7 @@ export function AccountActions({
   }, [account.id, demo]);
   return (
     <div className="stack">
-      <Dialog open={open} onOpenChange={setOpen}>
+      {canBoost ? <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger className="button" onClick={() => record('boost_click')}>
           <Zap size={17} /> Boost profile
         </DialogTrigger>
@@ -171,7 +173,7 @@ export function AccountActions({
           </button>
           <output className="error">{message}</output>
         </DialogContent>
-      </Dialog>
+      </Dialog> : <div className="notice">Only the verified owner can boost this profile.</div>}
       <button
         className="button secondary"
         onClick={async () => {
@@ -199,18 +201,6 @@ export function AccountActions({
         <Share2 size={16} /> Share profile
       </button>
       <div className="action-links">
-        <Dialog>
-          <DialogTrigger className="text-link">
-            <ShieldCheck size={14} /> Claim account
-          </DialogTrigger>
-          <DialogContent>
-            <DialogTitle>Claim this profile</DialogTitle>
-            <DialogDescription>
-              Ownership is verified separately from promotion purchases.
-            </DialogDescription>
-            <PrivateAction kind="claim" accountId={account.id} demo={demo} />
-          </DialogContent>
-        </Dialog>
         <Dialog>
           <DialogTrigger className="text-link">
             <Flag size={14} /> Report

@@ -13,6 +13,7 @@ export type Account = {
   account_status: string;
   color: string;
   platform_id: string;
+  owner_user_id?: string | null;
   location_verification_status?: string;
 };
 export type Location = {
@@ -45,7 +46,7 @@ export function compare(a: Account, b: Account) {
 }
 export function rank(accounts: Account[]) {
   return accounts
-    .filter((a) => a.account_status === 'approved')
+    .filter((a) => a.account_status === 'approved' && a.ownership_status === 'verified')
     .sort(compare)
     .map((a, i) => ({ ...a, rank: i + 1 }));
 }

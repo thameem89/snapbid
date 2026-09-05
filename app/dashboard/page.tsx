@@ -1,6 +1,6 @@
 export const metadata = { robots: { index: false, follow: false } };
 import Link from 'next/link';
-import { SignIn, SignOut, EditOwnedAccount } from '@/components/rally/forms';
+import { SignIn, SignOut, EditOwnedAccount, VerifyOwnership } from '@/components/rally/forms';
 import { config } from '@/lib/server/config';
 import { db, checked, user } from '@/lib/server/db';
 import { money } from '@/lib/domain/ranking';
@@ -31,10 +31,9 @@ export default async function Page() {
       .eq('payer_user_id', u.id)
       .order('created_at', { ascending: false })
       .limit(50),
-    db()
-      .from('social_account_owners')
-      .select('social_account_id,social_accounts(slug,display_name,bio)')
-      .eq('user_id', u.id),
+    db().from('social_accounts')
+      .select('id,slug,username,display_name,bio,ownership_status,account_status,platform_id,total_verified_promotion_cents')
+      .eq('owner_user_id', u.id),
   ]);
   return (
     <div className="page stack">
@@ -43,17 +42,16 @@ export default async function Page() {
       <SignOut />
       <div className="page-grid">
         <section className="panel">
-          <h2>Your accounts</h2>
+          <h2>My Social Profiles</h2>
           {(checked(owners) ?? []).map((o) => (
-            <EditOwnedAccount
-              key={o.social_account_id}
-              accountId={o.social_account_id}
-              name={
-                (o.social_accounts as unknown as { display_name: string })
-                  .display_name
-              }
-              bio={(o.social_accounts as unknown as { bio: string }).bio}
-            />
+            <div className="panel stack" key={o.id}>
+              <div className="eyebrow">{o.platform_id} · {o.ownership_status === 'verified' ? 'SOCIAL PROFILE VERIFIED' : 'UNVERIFIED'}</div>
+              <h3>@{o.username}</h3>
+              <p className="muted">Promotion value: {money(o.total_verified_promotion_cents)}</p>
+              <EditOwnedAccount accountId={o.id} name={o.display_name} bio={o.bio} />
+              {o.ownership_status !== 'verified' && <VerifyOwnership accountId={o.id} username={o.username} />}
+              {o.ownership_status === 'verified' && o.account_status === 'approved' && <Link className="button" href={`/account/${o.slug}?boost=1`}>Boost Profile</Link>}
+            </div>
           ))}
           <Link href="/add-profile" className="text-link">
             Add Profile →

@@ -7,7 +7,7 @@ import { notFound } from 'next/navigation';
 import { MapPin, ArrowUpRight } from 'lucide-react';
 import { getAccount, accountRanks, opportunities } from '@/lib/server/ranking';
 import { config } from '@/lib/server/config';
-import { db, checked } from '@/lib/server/db';
+import { db, checked, authClient } from '@/lib/server/db';
 import { Avatar } from '@/components/rally/leaderboard';
 import { AccountActions } from '@/components/rally/account-actions';
 import { money } from '@/lib/domain/ranking';
@@ -39,6 +39,10 @@ export default async function Page({
   const a = await getAccount((await params).slug);
   if (!a) notFound();
   const c = config();
+  let viewerId: string | undefined;
+  if (!c.demo) {
+    try { viewerId = (await (await authClient()).auth.getUser()).data.user?.id; } catch {}
+  }
   const ranks = await accountRanks(a);
   const goals = await opportunities(a, a.location_id);
   const history = c.demo
@@ -65,7 +69,7 @@ export default async function Page({
           <h1>{a.display_name}</h1>
           <p className="muted">
             @{a.username} ·{' '}
-            {a.ownership_status === 'verified' ? 'Verified Owner' : 'Unclaimed'}
+            {a.ownership_status === 'verified' ? 'Ownership Verified by Climbr' : 'Unverified'}
           </p>
         </div>
       </div>
@@ -149,10 +153,11 @@ export default async function Page({
               currentRank={ranks[0].rank}
               max={c.max}
               initialOpen={(await searchParams).boost === '1'}
+              canBoost={c.demo || (!!viewerId && viewerId === a.owner_user_id)}
             />
           </div>
           <div className="panel share-card">
-            <span className="eyebrow">RALLY / SNAPCHAT</span>
+            <span className="eyebrow">CLIMBR / SNAPCHAT</span>
             <p>{a.city} sponsored ranking</p>
             <strong>#{ranks[0].rank}</strong>
             <h3>@{a.username}</h3>
