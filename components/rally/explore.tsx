@@ -120,7 +120,7 @@ export function SearchProfiles() {
     <div className="stack">
       <label className="field">
         <span>
-          <Search size={15} /> Search Rally
+          <Search size={15} /> Search Climbr
         </span>
         <input
           autoComplete="off"

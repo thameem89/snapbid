@@ -105,7 +105,7 @@ export const policies: Record<
     sections: [
       [
         'The service',
-        'Rally sells promotional placement value for social profiles. Purchased value is cumulative and positions remain competitive. Purchases do not guarantee followers, engagement, or permanent placement.',
+        'Climbr sells promotional placement value for social profiles. Purchased value is cumulative and positions remain competitive. Purchases do not guarantee followers, engagement, or permanent placement.',
       ],
       [
         'Responsible use',

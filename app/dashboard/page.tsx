@@ -16,7 +16,7 @@ export default async function Page() {
   if (!u)
     return (
       <div className="page">
-        <h1>Your Rally.</h1>
+        <h1>Your Climbr.</h1>
         <SignIn />
       </div>
     );
@@ -38,7 +38,7 @@ export default async function Page() {
   ]);
   return (
     <div className="page stack">
-      <h1>Your Rally.</h1>
+      <h1>Your Climbr.</h1>
       <p>{u.email}</p>
       <SignOut />
       <div className="page-grid">
@@ -55,8 +55,8 @@ export default async function Page() {
               bio={(o.social_accounts as unknown as { bio: string }).bio}
             />
           ))}
-          <Link href="/add-account" className="text-link">
-            Add an account →
+          <Link href="/add-profile" className="text-link">
+            Add Profile →
           </Link>
           <h2>Ownership claims</h2>
           {(checked(claims) ?? []).map((c) => (

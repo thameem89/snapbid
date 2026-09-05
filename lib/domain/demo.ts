@@ -24,7 +24,7 @@ export const demoAccounts: Account[] = rows.map((r, i) => ({
   location_id: String(r[2]),
   city: locations.find((l) => l.id === r[2])!.name,
   country: String(r[3]),
-  bio: 'A fictional creator profile for exploring Rally. Discover the places, stories, and everyday moments that inspire us.',
+  bio: 'A fictional creator profile for exploring Climbr. Discover the places, stories, and everyday moments that inspire us.',
   total_verified_promotion_cents: Number(r[4]),
   first_verified_promotion_at: `2026-01-${String(i + 1).padStart(2, '0')}T00:00:00Z`,
   ownership_status: 'unclaimed',

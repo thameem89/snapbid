@@ -7,11 +7,11 @@ import {
   Zap,
   ShieldCheck,
   Plus,
-  ChevronDown,
 } from 'lucide-react';
 import type { Account, Location } from '@/lib/domain/ranking';
 import { money } from '@/lib/domain/ranking';
 import { GeographyNav } from './geography-nav';
+import { PlatformSelector } from './platform-selector';
 export function Avatar({
   account,
   large = false,
@@ -49,29 +49,29 @@ export function Leaderboard({
     <>
       <section className="intro">
         <div>
-          <div className="eyebrow">
-            <span className="status-dot" /> THE CREATOR SPOTLIGHT
-          </div>
+          <div className="eyebrow"><span className="status-dot" /> SPONSORED SOCIAL RANKINGS</div>
           <h1>
-            Your world.
+            Climb your city.
             <br />
-            Your <span>spotlight.</span>
+            Climb your country.
+            <br />
+            Climb the <span>world.</span>
             <span className="headline-arrow">↗</span>
           </h1>
           <p>
-            Discover creators. Boost their visibility.
-            <br />
+            Discover sponsored rankings and boost profile visibility.
             <span className="intro-detail">
-              Explore sponsored Snapchat rankings, from your city to the world.
+              Live now on Snapchat. More platforms are on the way.
             </span>
           </p>
           <div className="intro-actions">
             <a href="#leaderboard" className="button">
-              Explore rankings <ArrowRight size={17} />
+              Explore Rankings <ArrowRight size={17} />
             </a>
-            <Link href="/how-it-works" className="text-link">
-              How it works <ArrowUpRight size={16} />
+            <Link href="/search" className="text-link">
+              Find My Rank <ArrowUpRight size={16} />
             </Link>
+            <Link href="/add-profile" className="text-link">Add Profile</Link>
           </div>
         </div>
         <div className="intro-note">
@@ -100,11 +100,7 @@ export function Leaderboard({
       </div>
       <section id="leaderboard">
         <div className="board-controls">
-          <div className="platform-pill">
-            <span className="snap-symbol">♧</span> Snapchat{' '}
-            <ChevronDown size={14} />
-            <span className="live-label">LAUNCH PLATFORM</span>
-          </div>
+          <PlatformSelector />
           <span className="period">
             All-time <span className="muted"> / USD</span>
           </span>
@@ -125,9 +121,9 @@ export function Leaderboard({
         {accounts.length === 0 ? (
           <div className="empty">
             <h3>The spotlight is open.</h3>
-            <p>Be the first to add an account in this location.</p>
-            <Link className="button" href="/add-account">
-              Add account
+            <p>Be the first to add a profile in this location.</p>
+            <Link className="button" href="/add-profile">
+              Add Profile
             </Link>
           </div>
         ) : (
@@ -226,8 +222,8 @@ export function Leaderboard({
           <h2>Big visibility starts small.</h2>
           <p>Find your favorite profile and give it a boost. Starting at $1.</p>
         </div>
-        <Link href="/add-account" className="button secondary">
-          Add a profile <Plus size={17} />
+        <Link href="/add-profile" className="button secondary">
+          Add Profile <Plus size={17} />
         </Link>
       </section>
     </>

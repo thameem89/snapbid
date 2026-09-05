@@ -17,7 +17,7 @@ export async function POST(req: Request) {
       }),
     );
     return Response.json({
-      message: 'Report submitted. Thank you for helping keep Rally safe.',
+      message: 'Report submitted. Thank you for helping keep Climbr safe.',
     });
   } catch (e) {
     return failure(e);

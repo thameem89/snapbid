@@ -25,7 +25,7 @@ export function DownloadCard({
         ctx.fillRect(0, 0, 1080, 1350);
         ctx.fillStyle = '#e8fa6c';
         ctx.font = 'bold 72px Arial';
-        ctx.fillText('rally.', 80, 150);
+        ctx.fillText('climbr.', 80, 150);
         ctx.fillStyle = '#a0a5a4';
         ctx.font = '28px Arial';
         ctx.fillText('SNAPCHAT / SPONSORED RANKING', 80, 230);
@@ -54,7 +54,7 @@ export function DownloadCard({
           1210,
         );
         const link = document.createElement('a');
-        link.download = `rally-${username}.png`;
+        link.download = `climbr-${username}.png`;
         link.href = canvas.toDataURL('image/png');
         link.click();
       }}

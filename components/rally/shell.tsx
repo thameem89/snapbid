@@ -7,7 +7,7 @@ export function Brand() {
       <span className="brand-icon">
         <ArrowUpRight size={25} />
       </span>
-      rally<span className="brand-dot">.</span>
+      climbr<span className="brand-dot">.</span>
     </Link>
   );
 }
@@ -36,8 +36,8 @@ export function Header() {
           <Link href="/dashboard" className="signin">
             Sign in
           </Link>
-          <Link href="/add-account" className="button small">
-            <Plus size={16} /> Add account
+          <Link href="/add-profile" className="button small">
+            <Plus size={16} /> Add Profile
           </Link>
         </div>
       </div>

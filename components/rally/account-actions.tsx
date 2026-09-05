@@ -179,7 +179,7 @@ export function AccountActions({
           try {
             if (navigator.share)
               await navigator.share({
-                title: `${account.display_name} on Rally`,
+                title: `${account.display_name} on Climbr`,
                 text: 'Sponsored ranking based on purchased promotion value.',
                 url,
               });

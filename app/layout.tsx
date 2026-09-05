@@ -6,8 +6,8 @@ export const metadata: Metadata = {
   metadataBase: new URL(config().url),
   alternates: { canonical: '/' },
   title: {
-    default: 'Rally — Sponsored Snapchat Rankings',
-    template: '%s | Rally',
+    default: 'Climbr — Sponsored Social Rankings',
+    template: '%s | Climbr',
   },
   description:
     'Discover sponsored creator rankings across your city, country and the world. Promotion starts at $1.',
