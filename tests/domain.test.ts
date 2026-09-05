@@ -45,9 +45,7 @@ void test('integer cents reject floats, scientific notation, negative, unsafe, m
 void test('location ancestors include optional levels; cycles fail', () => {
   assert.deepEqual(ancestors('dubai', locations), [
     'dubai',
-    'dubai-emirate',
     'uae',
-    'gcc',
     'middle-east',
     'asia',
     'world',

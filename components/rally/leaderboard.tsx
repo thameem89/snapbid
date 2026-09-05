@@ -109,7 +109,6 @@ export function Leaderboard({
             ['world', 'World'],
             ['asia', 'Asia'],
             ['middle-east', 'Middle East'],
-            ['gcc', 'GCC'],
             ['uae', 'UAE'],
             ['uae/dubai', 'Dubai'],
           ].map(([slug, label]) => (

@@ -1,7 +1,7 @@
 create extension if not exists pg_trgm;
 -- All money is integer USD cents. Only service_role can write ranking value.
 create table public.platforms(id text primary key,name text not null,profile_url_pattern text not null,enabled boolean not null default false);
-create table public.locations(id text primary key,name text not null,slug text not null unique,type text not null check(type in('world','continent','subregion','country','region','city')),parent_id text references public.locations(id),country_code text,continent_code text,enabled boolean not null default true,created_at timestamptz not null default now(),check(id<>parent_id));
+create table public.locations(id text primary key,name text not null,slug text not null unique,type text not null check(type in('world','continent','region','country','city')),parent_id text references public.locations(id),country_code text,continent_code text,enabled boolean not null default true,created_at timestamptz not null default now(),check(id<>parent_id));
 create index locations_parent on public.locations(parent_id);
 create table public.profiles(id uuid primary key references auth.users(id) on delete cascade,display_name text,created_at timestamptz not null default now());
 create table public.admin_members(user_id uuid primary key references auth.users(id) on delete cascade);
