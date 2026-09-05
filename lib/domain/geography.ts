@@ -102,6 +102,17 @@ export function geographyCatalog(): Location[] {
     }
   }
 
-  for (const [id, name, parent] of extras) add(id, name, 'city', parent);
+  for (const [id, name, parent] of extras) {
+    for (const [existingId, location] of result) {
+      if (
+        location.type === 'city' &&
+        location.parent_id === parent &&
+        location.name.localeCompare(name, undefined, { sensitivity: 'base' }) === 0
+      ) {
+        result.delete(existingId);
+      }
+    }
+    add(id, name, 'city', parent);
+  }
   return [...result.values()];
 }
