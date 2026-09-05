@@ -35,6 +35,7 @@ export default async function Page({
 }: {
   params: Promise<{ path?: string[] }>;
 }) {
+  const locations = await getLocations();
   const loc = await location((await params).path);
   if (!loc) notFound();
   return (
@@ -42,6 +43,8 @@ export default async function Page({
       accounts={await leaderboard(loc.id)}
       place={loc.id === 'uae' ? 'UAE' : loc.name}
       demo={config().demo}
+      locations={locations}
+      activeLocation={loc.id}
     />
   );
 }

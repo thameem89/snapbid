@@ -1,6 +1,6 @@
 import { RecentActivity } from '@/components/rally/activity';
 import { Leaderboard } from '@/components/rally/leaderboard';
-import { leaderboard } from '@/lib/server/ranking';
+import { getLocations, leaderboard } from '@/lib/server/ranking';
 import { config } from '@/lib/server/config';
 export default async function Home() {
   const accounts = await leaderboard();
@@ -24,7 +24,11 @@ export default async function Home() {
           __html: JSON.stringify(structured).replace(/</g, '\\u003c'),
         }}
       />
-      <Leaderboard accounts={accounts} demo={config().demo} />
+      <Leaderboard
+        accounts={accounts}
+        demo={config().demo}
+        locations={await getLocations()}
+      />
       <RecentActivity />
     </>
   );

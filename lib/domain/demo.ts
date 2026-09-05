@@ -1,35 +1,7 @@
 import type { Account, Location } from './ranking';
-export const locations: Location[] = [
-  ['world', 'World', null, 'world'],
-  ['asia', 'Asia', 'world', 'continent'],
-  ['middle-east', 'Middle East', 'asia', 'region'],
-  ['uae', 'United Arab Emirates', 'middle-east', 'country'],
-  ['dubai', 'Dubai', 'uae', 'city'],
-  ['abu-dhabi', 'Abu Dhabi', 'uae', 'city'],
-  ['sharjah', 'Sharjah', 'uae', 'city'],
-  ['saudi-arabia', 'Saudi Arabia', 'middle-east', 'country'],
-  ['riyadh', 'Riyadh', 'saudi-arabia', 'city'],
-  ['jeddah', 'Jeddah', 'saudi-arabia', 'city'],
-  ['qatar', 'Qatar', 'middle-east', 'country'],
-  ['doha', 'Doha', 'qatar', 'city'],
-  ['kuwait', 'Kuwait', 'middle-east', 'country'],
-  ['europe', 'Europe', 'world', 'continent'],
-  ['uk', 'United Kingdom', 'europe', 'country'],
-  ['england', 'England', 'uk', 'region'],
-  ['london', 'London', 'england', 'city'],
-  ['india', 'India', 'asia', 'country'],
-  ['mumbai', 'Mumbai', 'india', 'city'],
-  ['north-america', 'North America', 'world', 'continent'],
-  ['usa', 'United States', 'north-america', 'country'],
-  ['california', 'California', 'usa', 'region'],
-  ['los-angeles', 'Los Angeles', 'california', 'city'],
-].map(([id, name, parent, type]) => ({
-  id: id!,
-  slug: id!,
-  name: name!,
-  parent_id: parent,
-  type: type!,
-}));
+import { geographyCatalog } from './geography';
+
+export const locations: Location[] = geographyCatalog();
 const rows = [
   ['Zayn Atlas', 'zayn.atlas', 'dubai', 'UAE', 92300, 'amber'],
   ['Mira Sol', 'mira.sol', 'dubai', 'UAE', 81000, 'rose'],

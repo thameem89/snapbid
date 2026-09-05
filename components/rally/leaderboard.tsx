@@ -9,8 +9,9 @@ import {
   Plus,
   ChevronDown,
 } from 'lucide-react';
-import type { Account } from '@/lib/domain/ranking';
+import type { Account, Location } from '@/lib/domain/ranking';
 import { money } from '@/lib/domain/ranking';
+import { GeographyNav } from './geography-nav';
 export function Avatar({
   account,
   large = false,
@@ -35,10 +36,14 @@ export function Leaderboard({
   accounts,
   place = 'World',
   demo = true,
+  locations,
+  activeLocation = 'world',
 }: {
   accounts: (Account & { rank: number })[];
   place?: string;
   demo?: boolean;
+  locations: Location[];
+  activeLocation?: string;
 }) {
   return (
     <>
@@ -104,26 +109,7 @@ export function Leaderboard({
             All-time <span className="muted"> / USD</span>
           </span>
         </div>
-        <div className="location-pills">
-          {[
-            ['world', 'World'],
-            ['asia', 'Asia'],
-            ['middle-east', 'Middle East'],
-            ['uae', 'UAE'],
-            ['uae/dubai', 'Dubai'],
-          ].map(([slug, label]) => (
-            <Link
-              key={slug}
-              href={`/snapchat/${slug}`}
-              className={place === label ? 'selected' : ''}
-            >
-              {label === 'World' && <Globe2 size={15} />} {label}
-            </Link>
-          ))}
-          <Link href="/rankings" className="more-location">
-            <MapPin size={15} /> Find a location <Plus size={14} />
-          </Link>
-        </div>
+        <GeographyNav locations={locations} active={activeLocation} />
         <div className="section-heading">
           <div>
             <div className="eyebrow">THE SPONSORED LEADERBOARD</div>

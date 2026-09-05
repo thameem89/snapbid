@@ -337,6 +337,52 @@ nav a {
   margin-left: auto;
   color: var(--secondary-text);
 }
+.geography-nav {
+  display: grid;
+  grid-template-columns: auto repeat(4, minmax(140px, 1fr));
+  gap: 8px;
+  padding-bottom: 23px;
+  border-bottom: 1px solid var(--border);
+}
+.geography-nav button,
+.geography-nav label {
+  min-height: 54px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--surface);
+}
+.geography-nav button {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 17px;
+  color: var(--foreground);
+  cursor: pointer;
+}
+.geography-nav button.selected {
+  background: var(--foreground);
+  color: var(--background);
+}
+.geography-nav label {
+  display: grid;
+  gap: 2px;
+  padding: 7px 11px;
+}
+.geography-nav label span {
+  color: var(--secondary-text);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.geography-nav select {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--foreground);
+  font: inherit;
+  font-size: 13px;
+}
 .section-heading {
   display: flex;
   justify-content: space-between;
@@ -779,6 +825,12 @@ footer {
   }
   .header-inner nav {
     display: none;
+  }
+  .geography-nav {
+    grid-template-columns: 1fr 1fr;
+  }
+  .geography-nav button {
+    justify-content: center;
   }
   .header-actions {
     gap: 12px;
